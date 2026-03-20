@@ -1,14 +1,9 @@
 import { z } from 'zod';
 
-// ─── Reusable field definitions ───────────────────────────────────────────────
 
 const uuidField = z.string().uuid('Must be a valid UUID');
 
-/**
- * Amount field: must be a positive number with at most 2 decimal places.
- * We reject amounts like 100.001 to prevent precision issues.
- * Minimum of 0.01 (1 kobo) — zero transfers are rejected.
- */
+
 const amountField = z
   .number({ invalid_type_error: 'Amount must be a number' })
   .positive('Amount must be greater than 0')
@@ -29,7 +24,7 @@ const passwordField = z
   .min(8, 'Password must be at least 8 characters')
   .max(128, 'Password is too long');
 
-// ─── Request Schemas ──────────────────────────────────────────────────────────
+
 
 export const createUserSchema = z.object({
   name: z
@@ -64,7 +59,7 @@ export const userIdParamSchema = z.object({
   user_id: uuidField,
 });
 
-// ─── Types inferred from schemas ──────────────────────────────────────────────
+
 
 export type CreateUserInput = z.infer<typeof createUserSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;

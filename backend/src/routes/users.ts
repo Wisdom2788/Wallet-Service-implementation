@@ -6,11 +6,6 @@ import { authenticate } from '../middleware/auth';
 
 const router = Router();
 
-/**
- * POST /users
- * Spec-compliant user + wallet creation endpoint.
- * Proxies to the same service method as /auth/register.
- */
 router.post(
   '/',
   validate(createUserSchema),
@@ -31,10 +26,7 @@ router.post(
   }
 );
 
-/**
- * GET /users/me
- * Returns the authenticated user's profile.
- */
+
 router.get(
   '/me',
   authenticate,
@@ -48,10 +40,7 @@ router.get(
   }
 );
 
-/**
- * GET /users
- * Lists all users except the requester (for transfer target picker).
- */
+
 router.get(
   '/',
   authenticate,

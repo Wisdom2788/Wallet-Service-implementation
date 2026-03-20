@@ -5,11 +5,6 @@ import { createUserSchema, loginSchema } from '../validators/schemas';
 
 const router = Router();
 
-/**
- * POST /auth/register
- * Creates user + wallet, returns JWT token.
- * Also satisfies the spec's POST /users requirement.
- */
 router.post(
   '/register',
   validate(createUserSchema),
@@ -30,10 +25,7 @@ router.post(
   }
 );
 
-/**
- * POST /auth/login
- * Authenticates existing user, returns JWT token.
- */
+
 router.post(
   '/login',
   validate(loginSchema),

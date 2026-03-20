@@ -35,7 +35,7 @@ export default function Dashboard() {
 
   return (
     <div className="app-shell">
-      {/* ── Navbar ──────────────────────────────────────── */}
+      
       <nav className="navbar">
         <span className="navbar-brand">⬡ Lance<span>Wallet</span></span>
         <div className="navbar-user">
@@ -47,7 +47,7 @@ export default function Dashboard() {
       </nav>
 
       <main className="main-content">
-        {/* ── Page header ─────────────────────────────────── */}
+        
         <div className="page-header">
           <div className="page-title">My Wallet</div>
           <div className="page-subtitle">
@@ -56,7 +56,7 @@ export default function Dashboard() {
         </div>
 
         <div className="section-gap">
-          {/* ── Balance card ────────────────────────────────── */}
+          
           <div className="card balance-card">
             <div className="balance-label">Available Balance</div>
             {balanceLoading ? (
@@ -74,7 +74,7 @@ export default function Dashboard() {
             
           </div>
 
-          {/* ── Action panels (Deposit / Transfer) ──────────── */}
+          
           <div className="card-grid">
             <div className="card">
               <div className="tabs">
@@ -99,7 +99,7 @@ export default function Dashboard() {
               )}
             </div>
 
-            {/* ── Quick stats ──────────────────────────────────── */}
+            
             <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <div className="card-title">Account Info</div>
               <InfoRow label="Name" value={user?.name ?? '—'} />
@@ -124,7 +124,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* ── Transaction history ──────────────────────────── */}
+          
           <div className="card">
             <div className="card-title">Transaction History</div>
             <TransactionList refreshKey={refreshKey} />

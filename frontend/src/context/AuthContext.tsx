@@ -36,7 +36,7 @@ function loadPersistedAuth(): AuthState {
       };
     }
   } catch {
-    // Corrupt storage — reset
+    
     localStorage.clear();
   }
   return { token: null, user: null, wallet: null, isAuthenticated: false };

@@ -1,9 +1,3 @@
-/**
- * Structured error hierarchy for the wallet service.
- * Using typed errors rather than string messages allows middleware
- * to map errors to HTTP status codes cleanly and consistently.
- */
-
 export class AppError extends Error {
   constructor(
     public readonly message: string,

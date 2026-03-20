@@ -1,20 +1,3 @@
-/**
- * Database Migration
- *
- * Schema Design Philosophy:
- * ─────────────────────────
- * This uses a double-entry ledger model. Every financial movement produces
- * two ledger_entries (one DEBIT, one CREDIT). The wallet balance is always
- * DERIVED by summing ledger entries — it is never stored directly.
- *
- * This is the industry standard (used by Stripe, Monzo, etc.) because:
- *  1. The ledger is an immutable audit trail — you can reconstruct any
- *     point-in-time balance.
- *  2. The sum of all ledger entries across all wallets always equals zero
- *     (debits = credits), which gives a powerful consistency invariant.
- *  3. Eliminates the "balance column" as a race-condition hotspot.
- */
-
 import { pool } from '../config/database';
 import dotenv from 'dotenv';
 dotenv.config();

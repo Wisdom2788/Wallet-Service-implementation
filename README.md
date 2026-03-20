@@ -25,7 +25,7 @@ A fintech wallet service built with Node.js (TypeScript), PostgreSQL, and React.
 **Prerequisites:** Docker + Docker Compose installed.
 
 ```bash
-git clone <repo-url>
+git clone <your-repo-url>
 cd wallet-service
 
 docker-compose up --build
@@ -241,14 +241,14 @@ Create user + wallet atomically. Returns JWT.
 ```bash
 curl -X POST http://localhost:3000/auth/register \
   -H "Content-Type: application/json" \
-  -d '{ "name": "John Doe", "email": "john@example.com", "password": "secret123" }'
+  -d '{ "name": "Anthony mark", "email": "anthony@example.com", "password": "secret123" }'
 ```
 
 ```json
 {
   "success": true,
   "data": {
-    "user": { "id": "uuid", "name": "John Doe", "email": "john@example.com" },
+    "user": { "id": "uuid", "name": "Anthony mark", "email": "anthony@example.com" },
     "wallet": { "id": "uuid", "user_id": "uuid" },
     "token": "eyJ..."
   }
@@ -262,7 +262,7 @@ curl -X POST http://localhost:3000/auth/register \
 ```bash
 curl -X POST http://localhost:3000/auth/login \
   -H "Content-Type: application/json" \
-  -d '{ "email": "john@example.com", "password": "secret123" }'
+  -d '{ "email": "anthony@example.com", "password": "secret123" }'
 ```
 
 ---
@@ -522,5 +522,3 @@ cd backend
 npm test               # Jest unit + integration tests
 npm run test:coverage  # Coverage report
 ```
-
-> Tests are not included in this submission to stay within the time budget, but the service layer is designed to be fully unit-testable — services accept a `client` parameter (making DB injection trivial) and all external dependencies are abstracted behind interfaces.

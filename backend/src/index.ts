@@ -14,12 +14,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT ?? 3000;
 
-// ─── Security Middleware ───────────────────────────────────────────────────────
 
-// Helmet sets security-relevant HTTP headers
 app.use(helmet());
 
-// CORS — in production, restrict to your actual frontend domain
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN ?? 'http://localhost:5173',
@@ -43,12 +40,9 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// ─── Body Parsing ─────────────────────────────────────────────────────────────
 
 app.use(express.json({ limit: '10kb' })); // Reject suspiciously large payloads
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
-
-// ─── Routes ───────────────────────────────────────────────────────────────────
 
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -58,15 +52,12 @@ app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/wallet', walletRoutes);
 
-// ─── Error Handling ───────────────────────────────────────────────────────────
 
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-// ─── Start Server ─────────────────────────────────────────────────────────────
-
 app.listen(PORT, () => {
-  console.log(`🚀 Wallet service running on http://localhost:${PORT}`);
+  console.log(` Wallet service running on http://localhost:${PORT}`);
   console.log(`   Environment: ${process.env.NODE_ENV ?? 'development'}`);
 });
 

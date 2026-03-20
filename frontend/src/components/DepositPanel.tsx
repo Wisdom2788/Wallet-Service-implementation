@@ -28,7 +28,7 @@ export default function DepositPanel({ onSuccess }: Props) {
 
     setLoading(true);
     try {
-      // Generate idempotency key per-submission — safe to retry on network failure
+      
       const key = newIdempotencyKey();
       await walletApi.deposit(user.id, numAmount, key);
       setSuccess(`✓ ₦${numAmount.toLocaleString()} deposited successfully`);
@@ -64,7 +64,6 @@ export default function DepositPanel({ onSuccess }: Props) {
           />
         </div>
 
-        {/* Quick-select buttons */}
         <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
           {quickAmounts.map((q) => (
             <button

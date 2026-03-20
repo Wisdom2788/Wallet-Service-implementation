@@ -1,4 +1,3 @@
-// ─── Domain Types ─────────────────────────────────────────────────────────────
 
 export interface User {
   id: string;
@@ -20,10 +19,10 @@ export type LedgerEntryType = 'CREDIT' | 'DEBIT';
 export interface Transaction {
   id: string;
   type: TransactionType;
-  reference: string | null;       // idempotency key
+  reference: string | null;       
   from_wallet_id: string | null;
   to_wallet_id: string | null;
-  amount: string;                 // NUMERIC from pg comes back as string
+  amount: string;                 
   status: TransactionStatus;
   created_at: Date;
 }
@@ -37,7 +36,6 @@ export interface LedgerEntry {
   created_at: Date;
 }
 
-// ─── API Request/Response Types ───────────────────────────────────────────────
 
 export interface CreateUserRequest {
   name: string;
@@ -84,7 +82,6 @@ export interface AuthPayload {
   walletId: string;
 }
 
-// ─── Express augmentation ─────────────────────────────────────────────────────
 
 declare global {
   namespace Express {

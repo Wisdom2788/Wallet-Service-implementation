@@ -13,13 +13,8 @@ export interface UserWithWallet {
   token: string;
 }
 
-/**
- * Create a new user and their associated wallet atomically.
- * Both are created in the same transaction — if wallet creation fails,
- * the user row is also rolled back.
- */
 export async function createUser(input: CreateUserInput): Promise<UserWithWallet> {
-  // Check for duplicate email before entering transaction (faster fail)
+
   const existing = await queryOne<User>(
     'SELECT id FROM users WHERE email = $1',
     [input.email]
@@ -31,7 +26,7 @@ export async function createUser(input: CreateUserInput): Promise<UserWithWallet
   const passwordHash = await bcrypt.hash(input.password, BCRYPT_SALT_ROUNDS);
 
   return withTransaction(async (client) => {
-    // Create user
+
     const userResult = await client.query<User>(
       `INSERT INTO users (name, email, password_hash)
        VALUES ($1, $2, $3)
@@ -40,7 +35,7 @@ export async function createUser(input: CreateUserInput): Promise<UserWithWallet
     );
     const user = userResult.rows[0];
 
-    // Create wallet — linked 1:1 to user
+
     const walletResult = await client.query<Wallet>(
       `INSERT INTO wallets (user_id) VALUES ($1) RETURNING *`,
       [user.id]
@@ -57,10 +52,7 @@ export async function createUser(input: CreateUserInput): Promise<UserWithWallet
   });
 }
 
-/**
- * Authenticate a user with email + password.
- * Uses bcrypt.compare which is timing-safe (resistant to timing attacks).
- */
+
 export async function loginUser(
   input: LoginInput
 ): Promise<UserWithWallet & { user: User }> {
@@ -70,8 +62,6 @@ export async function loginUser(
     [input.email]
   );
 
-  // Use the same error message whether email or password is wrong
-  // to prevent user enumeration attacks
   const INVALID_CREDENTIALS = 'Invalid email or password';
 
   if (!user) throw new AuthenticationError(INVALID_CREDENTIALS);
@@ -96,9 +86,7 @@ export async function loginUser(
   return { user: userWithoutHash as User, wallet, token };
 }
 
-/**
- * Fetch a user by ID (for profile lookups).
- */
+
 export async function getUserById(userId: string): Promise<User> {
   const user = await queryOne<User>(
     `SELECT id, name, email, created_at FROM users WHERE id = $1`,
@@ -108,10 +96,6 @@ export async function getUserById(userId: string): Promise<User> {
   return user;
 }
 
-/**
- * List all users (for the transfer target picker in the UI).
- * Excludes the requesting user from results.
- */
 export async function listUsers(excludeUserId: string): Promise<User[]> {
   return query<User>(
     `SELECT id, name, email, created_at FROM users WHERE id != $1 ORDER BY name ASC`,

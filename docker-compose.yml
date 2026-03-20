@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  # ── PostgreSQL ─────────────────────────────────────────────────────────────
+  
   postgres:
     image: postgres:16-alpine
     container_name: wallet_postgres
@@ -20,8 +20,7 @@ services:
       timeout: 5s
       retries: 10
 
-  # ── Backend API ───────────────────────────────────────────────────────────
-  backend:
+  
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -40,8 +39,7 @@ services:
     ports:
       - '3000:3000'
 
-  # ── Frontend ──────────────────────────────────────────────────────────────
-  frontend:
+  
     build:
       context: ./frontend
       dockerfile: Dockerfile

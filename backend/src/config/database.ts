@@ -7,16 +7,12 @@ if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL environment variable is required');
 }
 
-// Connection pool — critical for production throughput.
-// Pool size should be tuned based on PostgreSQL's max_connections and
-// number of API server instances. Rule of thumb: cores * 2 + effective_spindle_count.
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  max: 20,                    // max pool connections
-  idleTimeoutMillis: 30_000,  // close idle connections after 30s
+  max: 20,                    
+  idleTimeoutMillis: 30_000,  
   connectionTimeoutMillis: 5_000,
-  // Ensure we're always working with numeric types correctly
-  // (pg returns NUMERIC as string by default — we parse in the service layer)
+  
 });
 
 pool.on('error', (err) => {
@@ -24,11 +20,7 @@ pool.on('error', (err) => {
   process.exit(1);
 });
 
-/**
- * Execute a function within a database transaction.
- * Automatically commits on success and rolls back on any error.
- * This is the primary mechanism for ensuring atomicity in financial operations.
- */
+
 export async function withTransaction<T>(
   fn: (client: PoolClient) => Promise<T>
 ): Promise<T> {

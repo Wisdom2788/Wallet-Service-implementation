@@ -16,19 +16,8 @@ import { AuthorizationError } from '../errors/AppError';
 
 const router = Router();
 
-// All wallet routes require authentication
 router.use(authenticate);
 
-/**
- * POST /wallet/deposit
- * Deposits funds into a user's wallet.
- *
- * Security note: We verify the requesting user matches the target user_id.
- * This prevents one user from depositing to another's wallet via the API.
- * (In a real system, deposits come from a payment gateway, not user-initiated.)
- *
- * Idempotency: Pass Idempotency-Key header to make this operation idempotent.
- */
 router.post(
   '/deposit',
   validate(depositSchema),
@@ -37,7 +26,7 @@ router.post(
       const { user_id, amount } = req.body;
       const idempotencyKey = req.headers['idempotency-key'] as string | undefined;
 
-      // Authorization: users can only deposit to their own wallet
+      
       if (user_id !== req.user!.userId) {
         throw new AuthorizationError('You can only deposit to your own wallet');
       }

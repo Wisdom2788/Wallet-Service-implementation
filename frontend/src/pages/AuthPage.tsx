@@ -43,7 +43,7 @@ export default function AuthPage() {
   return (
     <div className="auth-page">
       <div className="auth-box">
-        <div className="auth-logo">⬡ Lance</div>
+        <div className="auth-logo">Lance</div>
         <div className="auth-sub">
           {mode === 'login' ? 'Sign in to your wallet' : 'Create your wallet account'}
         </div>
