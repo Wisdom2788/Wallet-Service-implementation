@@ -1,0 +1,29 @@
+# ── Build stage ───────────────────────────────────────────────────────────────
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+
+COPY tsconfig.json ./
+COPY src ./src
+RUN npm run build
+
+# ── Runtime stage ─────────────────────────────────────────────────────────────
+FROM node:20-alpine AS runtime
+
+WORKDIR /app
+ENV NODE_ENV=production
+
+# Copy only production deps
+COPY package*.json ./
+RUN npm ci --omit=dev && npm cache clean --force
+
+COPY --from=builder /app/dist ./dist
+
+# Run migrations then start the server
+COPY docker-entrypoint.sh ./
+RUN chmod +x docker-entrypoint.sh
+
+EXPOSE 3000
+ENTRYPOINT ["./docker-entrypoint.sh"]
